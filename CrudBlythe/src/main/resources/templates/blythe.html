@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+<title>Listado Blythe</title>
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body class="container">
+	<div th:replace="fragments/header :: header"></div>
+	<div class="my-3">
+		<form th:action="@{/Blythe}">
+			<div class="row d-flex">
+				<div class="col-md-6 mt-2">
+					<div class="search">
+						<i class="fa fa-search"></i> <input id="keyword" type="search"
+							name="keyword" th:value="${keyword}" required
+							class="form-control" placeholder="Buscar....">
+						<button type="submit" class="btn btn-secondary">Buscar</button>
+					</div>
+				</div>
+				<div class="col-md-6 mt-2">
+					<a href="/Blythe" id="btnClear" class="btn btn-info"
+						style="background-color: #e83e8c">Limpiar</a>
+				</div>
+				<div class="col-md-6 mt-2">
+					<a href="/Blythe?keyword=rubio" id="btnClear" class="btn btn-info"
+						style="background-color: #17a2b8">Cabello Rubio</a>
+				</div>
+				<div class="col-md-6 mt-2">
+					<a href="/Blythe?keyword=2023" id="btnClear" class="btn btn-info"
+						style="background-color: #f87380">Lanzamiento 2023</a>
+				</div>
+				<div class="col-md-6 mt-2">
+					<a href="/Blythe?keyword=aniversario" id="btnClear"
+						class="btn btn-info" style="background-color: grey">Edición
+						Aniversario</a>
+				</div>
+				<div class="col-md-6 mt-2">
+					<a href="/Blythe?keyword=nieve" id="btnClear"
+						class="btn btn-info" style="background-color: red">Piel Nieve</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:if="${message != null}"
+		class="alert alert-success alert-dismissible fade show text-center message"
+		role="alert">
+		[[${message}]]
+		<button type="button" class="close btn-sm" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">×</span>
+		</button>
+	</div>
+
+	<div th:if="${blythe.size() > 0}">
+		<table class="table table-hover table-responsive-xl">
+			<thead class="thead-light">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Fecha de lanzamiento</th>
+					<th scope="col">Edición</th>
+					<th scope="col">Tipo de Molde</th>
+					<th scope="col">Color de Cabello</th>
+					<th scope="col">Color de Piel</th>
+					<th scope="col">Precio en €</th>
+					<th scope="col">Imagen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="blythe : ${blythe}">
+					<th scope="row">[[${blythe.Id}]]</th>
+					<td>[[${blythe.Nombre}]]</td>
+					<td>[[${blythe.Lanzamiento}]]</td>
+					<td>[[${blythe.Edicion}]]</td>
+					<td>[[${blythe.Molde}]]</td>
+					<td>[[${blythe.Cabello}]]</td>
+					<td>[[${blythe.Piel}]]</td>
+					<td>[[${blythe.Precio}]]</td>
+					<td><img th:src="${blythe.Imagen}" width="75px" height="100px"></td>
+
+					<td><a th:href="@{'/Blythe/' + ${blythe.Id}}"
+						title="Editar muñeca"
+						class="fa-regular fa-pen-to-square icon-dark"></a> <a
+						th:href="@{'/Blythe/delete/' + ${blythe.Id}}"
+						th:blytheTitle="${blythe.Nombre}" id="btnDelete"
+						title="Borrar muñeca"
+						class="fa-regular fa-trash-can icon-dark btn-delete"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
